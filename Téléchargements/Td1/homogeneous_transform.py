@@ -7,24 +7,42 @@ def rot_x(alpha):
     """Return the 4x4 homogeneous transform corresponding to a rotation of
     alpha around x
     """
-    #TODO implement
-    return None
+    r = np.array((
+                    (1,  0,              0,              0),
+                    (0,  np.cos(alpha),  -np.sin(alpha), 0),
+                    (0,  np.sin(alpha),   np.cos(alpha),     0),
+                    (0,  0,               0,             1)
+                
+                ))
+    return r
 
 
 def rot_y(alpha):
     """Return the 4x4 homogeneous transform corresponding to a rotation of
     alpha around y
     """
-    #TODO implement
-    return None
+    r = np.array((
+                    (np.cos(alpha),      0,              np.sin(alpha),  0),
+                    (0,                  1,              0,              0),
+                    (-np.sin(alpha),     0,              np.cos(alpha),  0),
+                    (0,                  0,              0,              1)
+                
+                ))
+    return r
 
 
 def rot_z(alpha):
     """Return the 4x4 homogeneous transform corresponding to a rotation of
     alpha around z
     """
-    #TODO implement
-    return None
+    r = np.array((
+                    (np.cos(alpha),      -np.sin(alpha),                          0,  0),
+                    (np.sin(alpha),      np.cos(alpha),              0,  0),
+                    (,                   0,                          1,  0),
+                    (0,                  0,                          0,  1)
+                
+                ))
+    return r
 
 
 def translation(vec):
@@ -59,7 +77,7 @@ def get_quat(T):
 
 if __name__ == "__main__":
     unittest.main()
-    # T = rotX(0.3).dot(translation(np.array([1, 2, 3])))
+    #T = rotX(0.3).dot(translation(np.array([1, 2, 3])))
     # print("T: ", T)
     # IT = invertTransform(T)
     # print("T: ", T)
