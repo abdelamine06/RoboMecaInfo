@@ -90,7 +90,7 @@ class RTRobot(RobotModel):
 
     def getJointsLimits(self):
         #TODO use meaningful limits based on URDF content
-        return np.array([[-10,10],[-5,5]],dtype = np.double)
+        return np.array([[0.0,6.3],[0.0,0.3]],dtype = np.double)
 
     def getOperationalDimensionNames(self):
         return ["x","y"]
@@ -115,7 +115,7 @@ class RRRRobot(RobotModel):
 
     def getJointsLimits(self):
         #TODO use meaningful limits based on URDF content
-        return np.array([[-10,10],[-10,10],[-10,10]],dtype = np.double)
+        return np.array([[0.0,6.3],[-2.0,3.0],[3.8,10]],dtype = np.double)
 
     def getOperationalDimensionNames(self):
         return ["x","y","z"]

@@ -43,6 +43,7 @@
       </geometry>
     </collision>
   </link>
+
   <link name="body2">
     <inertial>
       <origin xyz="0 -0.1 0" rpy="0 0 0"/>
