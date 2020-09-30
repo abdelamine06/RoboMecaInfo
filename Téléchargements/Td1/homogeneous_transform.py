@@ -60,9 +60,31 @@ def translation(vec):
 
 
 def invert_transform(T):
+    Rot = np.zeros((3,3))
+    Trans = np.zeros([3,1])
     
     
-    return None
+    T[3,3]=1
+    T[3,2]=0
+    T[3,1]=0
+    T[3,0]=0
+    for i in range(0,3):
+        for j in range(0,3):
+            Rot[i,j] = T[i,j] 
+    for i in range(3):
+        Trans[i]= T[i,3]
+
+    Rot_t = Rot.transpose()
+    Tran_t = (-Rot_t).dot(Trans)
+
+    for i in range(0,3):
+        for j in range(0,3):
+            T[i,j] = Rot_t[i,j]
+
+    for i in range(3):
+            T[i,3]=Tran_t[i]
+
+    return T
 
 def get_quat(T):
     """
