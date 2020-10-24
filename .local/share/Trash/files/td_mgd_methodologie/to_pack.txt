@@ -1,5 +1,0 @@
-group.csv
-control.py
-homogeneous_transform.py
-plot.py
-simulation.py
