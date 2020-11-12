@@ -5,13 +5,12 @@ def rot_x(alpha):
     """Return the 4x4 homogeneous transform corresponding to a rotation of
     alpha around x
     """
-    r = np.array((
-                    (1,  0,              0,              0),
-                    (0,  np.cos(alpha),  -np.sin(alpha), 0),
-                    (0,  np.sin(alpha),   np.cos(alpha),     0),
-                    (0,  0,               0,             1)
-                
-                ))
+    c = np.cos(alpha)
+    s = np.sin(alpha)
+    return np.array([[1, 0, 0, 0],
+                     [0, c, -s, 0],
+                     [0, s, c, 0],
+                     [0, 0, 0, 1]], dtype=np.double)
     return r
 
 
@@ -19,70 +18,42 @@ def rot_y(alpha):
     """Return the 4x4 homogeneous transform corresponding to a rotation of
     alpha around y
     """
-    r = np.array((
-                    (np.cos(alpha),      0,              np.sin(alpha),  0),
-                    (0,                  1,              0,              0),
-                    (-np.sin(alpha),     0,              np.cos(alpha),  0),
-                    (0,                  0,              0,              1)
-                
-                ))
-    return r
+    c = np.cos(alpha)
+    s = np.sin(alpha)
+    return np.array([[c, 0, s, 0],
+                     [0, 1, 0, 0],
+                     [-s, 0, c, 0],
+                     [0, 0, 0, 1]], dtype=np.double)
+
 
 
 def rot_z(alpha):
     """Return the 4x4 homogeneous transform corresponding to a rotation of
     alpha around z
     """
-    r = np.array((
-                    (np.cos(alpha),      -np.sin(alpha),                 0,  0),
-                    (np.sin(alpha),      np.cos(alpha),              0,  0),
-                    (0,                   0,                          1,  0),
-                    (0,                  0,                          0,  1)
-                
-                ))
-    return r
-
+    c = np.cos(alpha)
+    s = np.sin(alpha)
+    return np.array([[c, -s, 0, 0],
+                     [s, c, 0, 0],
+                     [0, 0, 1, 0],
+                     [0, 0, 0, 1]], dtype=np.double)
 
 def translation(vec):
     """Return the 4x4 homogeneous transform corresponding to a translation of
     vec
     """ 
-    dX = vec[0]
-    dY = vec[1]
-    dZ = vec[2]
-    t = np.array(( 
-                    (1 , 0, 0, dX),
-                    (0 , 1, 0, dY),
-                    (0 , 0, 1, dZ),
-                    (0 , 0, 0, 1)
-                ))
-    return t
+    return np.array([[1, 0, 0, vec[0]],
+                     [0, 1, 0, vec[1]],
+                     [0, 0, 1, vec[2]],
+                     [0, 0, 0, 1]], dtype=np.double)
 
 
 def invert_transform(T):
-    Rot = np.zeros((3,3))
-    Trans = np.zeros([3,1])
-    T[3,3]=1
-    T[3,2]=0
-    T[3,1]=0
-    T[3,0]=0
-    
-    for i in range(0,3):
-        for j in range(0,3):
-            Rot[i,j] = T[i,j] 
-    for i in range(3):
-        Trans[i]= T[i,3]
-
-    Rot_t = Rot.transpose()
-    Tran_t = (-Rot_t).dot(Trans)
-
-    for i in range(0,3):
-        for j in range(0,3):
-            T[i,j] = Rot_t[i,j]
-    for i in range(3):
-            T[i,3]=Tran_t[i]
-
-    return T
+    I = T.copy()
+    RI = T[:3, :3].transpose()
+    I[:3, :3] = RI
+    I[:3, 3] = -RI @ T[:3, 3]
+    return I
 
 def get_quat(T):
     """
@@ -98,7 +69,8 @@ def get_quat(T):
         transformation matrix
     """
     #TODO implement
-    return None
+    return R.from_dcm(T[:3,:3]).as_quat()
+    
 
 
 
