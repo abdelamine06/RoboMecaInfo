@@ -99,7 +99,10 @@ class RTRobot(RobotModel):
         return ["x","y"]
 
     def getBaseFromToolTransform(self, joints):
-        return None
+        T_0_1 = self.T_0_1 @ rot_z(joints[0])
+        T_1_2 = self.T_1_2 @ translation(joints[1] * np.array([1,0,0]))
+        return T_0_1 @ T_1_2.dot(self.T_2_E)
+
 
     def computeMGD(self, joints):
         return None
@@ -133,7 +136,11 @@ class RRRRobot(RobotModel):
 
     def getBaseFromToolTransform(self, joints):
         #TODO compute MGD
-        return None
+        max_xy = self.L1 + self.L2 + self.L3
+        min_z = self.L0 - self.L2 - self.L3
+        max_z = self.L0 + self.L2 + self.L3
+        return np.array([[-max_xy,max_xy],[-max_xy,max_xy],[min_z,max_z]])
+
 
     def computeMGD(self, joints):
         #TODO compute MGD
