@@ -83,15 +83,18 @@ class RTRobot(RobotModel):
     def __init__(self):
         # TODO initialize some properties or transforms which are independent
         #      of joints configuration
-        pass
-
+        self.L0 = 1.05
+        self.L1 = 0.2
+        self.L2 = 0.25
+        self.T_0_1 = translation([0,0,self.L0])
+        self.T_1_2 = translation([self.L1,0,0])
+        self.T_2_E = translation([0.0,-self.L2,0])
+        self.max_q1 = 0.25 # [m]
     def getJointsNames(self):
         return ["q0", "q1"]
 
     def getJointsLimits(self):
-        #TODO use meaningful limits based on URDF content
-        return np.array([[0.0,6.3],[0.0,0.3]],dtype = np.double)
-
+        return np.array([[-np.pi,np.pi],[0,self.max_q1]],dtype = np.double)
     def getOperationalDimensionNames(self):
         return ["x","y"]
 
