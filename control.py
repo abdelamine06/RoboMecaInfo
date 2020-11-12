@@ -105,7 +105,8 @@ class RTRobot(RobotModel):
 
 
     def computeMGD(self, joints):
-        return None
+        tool_pos = self.getBaseFromToolTransform(joints) @ np.array([0,0,0,1])
+        return tool_pos[:2]
 
 class RRRRobot(RobotModel):
     """
@@ -144,7 +145,8 @@ class RRRRobot(RobotModel):
 
     def computeMGD(self, joints):
         #TODO compute MGD
-        return None
+        tool_pos = self.getBaseFromToolTransform(joints) @ np.array([0,0,0,1])
+        return tool_pos[:3]
 
 def getRobotModel(robot_name):
     robot = None
